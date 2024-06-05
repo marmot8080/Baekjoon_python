@@ -2,7 +2,7 @@ def get_connected_vertex_count(vertex):
     count = 0
 
     connected_vertex = [0 for _ in range(vertex_count)]
-    connected_vertex = check_connected_vertex(vertex, connected_vertex)
+    connected_vertex = get_connected_vertex(vertex, connected_vertex)
 
     for i in range(vertex_count):
         if connected_vertex[i] == 1:
@@ -10,18 +10,29 @@ def get_connected_vertex_count(vertex):
     
     return count
 
-def check_connected_vertex(vertex, connected_vertex):
+def get_connected_vertex(vertex, connected_vertex):
     connected_vertex[vertex] = 1
 
     for i in range(vertex_count):
-        if connected_vertex[i] == 0 and adj_matrix[vertex][i] == 1:
-            connected_vertex = check_connected_vertex(i, connected_vertex)
+        if adj_matrix[vertex][i] == 1:
+            connected_vertex[i] = 1
+
+    for i in range(vertex_count):
+        min = i
+        if connected_vertex[i] == 1:
+            for j in range(vertex_count):
+                if connected_vertex[j] == 0 and adj_matrix[i][j] == 1:
+                    connected_vertex[j] = 1
+                    if j < min:
+                        min = j
+        if min < i:
+            i = min
 
     return connected_vertex
 
 def convert_connected_vertex_color(vertex):
     connected_vertex = [0 for _ in range(vertex_count)]
-    connected_vertex = check_connected_vertex(vertex, connected_vertex)
+    connected_vertex = get_connected_vertex(vertex, connected_vertex)
 
     for i in range(vertex_count):
         if connected_vertex[i] == 1 and vertex_color[i] == 1:
@@ -54,7 +65,7 @@ def execute_query_3(color):
         count = 0
 
         connected_vertex = [0 for _ in range(vertex_count)]
-        connected_vertex = check_connected_vertex(i, connected_vertex)
+        connected_vertex = get_connected_vertex(i, connected_vertex)
 
         for m in range(vertex_count):
             if connected_vertex[m] == 1:
