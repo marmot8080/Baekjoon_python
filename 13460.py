@@ -39,20 +39,26 @@ def tilt_board(red_loc, blue_loc, direction, count):
             blue[0] -= direction[0]
             blue[1] -= direction[1]
             
-            opposite_direction = list([direction[0] * -1, direction[1] * -1])
-            for d in directions:
-                if d != direction and d != opposite_direction:
-                    tilt_board(red, blue, d, count)
+            if red == red_loc and blue == blue_loc:
+                pass
+            else:
+                opposite_direction = list([direction[0] * -1, direction[1] * -1])
+                for d in directions:
+                    if d != direction and d != opposite_direction:
+                        tilt_board(red, blue, d, count)
         else:
             red[0] -= direction[0]
             red[1] -= direction[1]
             blue[0] -= direction[0]
             blue[1] -= direction[1]
 
-            opposite_direction = list([direction[0] * -1, direction[1] * -1])
-            for d in directions:
-                if d != direction and d != opposite_direction:
-                    tilt_board(red, blue, d, count)
+            if red == red_loc and blue == blue_loc:
+                pass
+            else:
+                opposite_direction = list([direction[0] * -1, direction[1] * -1])
+                for d in directions:
+                    if d != direction and d != opposite_direction:
+                        tilt_board(red, blue, d, count)
 
 def get_least_movement(row, column):
     global directions
