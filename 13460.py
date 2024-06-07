@@ -60,25 +60,20 @@ def tilt_board(red_loc, blue_loc, direction, count):
                     if d != direction and d != opposite_direction:
                         tilt_board(red, blue, d, count)
 
-def get_least_movement(row, column):
-    global directions
-
-    for i in range(row):
-        for j in range(column):
-            if board[i][j] == 'R':
-                red_loc = [i, j]
-            elif board[i][j] == 'B':
-                blue_loc = [i, j]
-    
-    for d in directions:
-        tilt_board(red_loc, blue_loc, d, 0)
-
-    if min > 10:
-        return -1
-    else:
-        return min
-
 row, column = map(int, input().split())
 board = [list(input()) for _ in range(row)]
 
-print(get_least_movement(row, column))
+for i in range(row):
+    for j in range(column):
+        if board[i][j] == 'R':
+            red_loc = [i, j]
+        elif board[i][j] == 'B':
+            blue_loc = [i, j]
+    
+for d in directions:
+    tilt_board(red_loc, blue_loc, d, 0)
+
+if min > 10:
+    print(-1)
+else:
+    print(min)
