@@ -3,12 +3,15 @@ right = [0, 1]
 up = [-1, 0]
 down = [1, 0]
 
-max = 0
+max_block = 0
 
 def move_by_direction(board, size, direction, count):
-    global max
+    global max_block
     tmp_board = [row[:] for row in board]
 
+    # TODO: remove_blank_by_direction()의 반복문 형태로 블록 합치기 실행
+    # --> 합쳐진 이후 역순의 반복문을 통해 공백을 탐색하여 공백 제거
+    # (함수 호출 감소로 인한 실행시간 단축 기대 but 가독성 저하될 가능성 우려)
     if direction[0] + direction[1] > 0:
         remove_blank_by_direction(tmp_board, size, direction)
         for i in range(size, direction[0], -1):
@@ -27,10 +30,7 @@ def move_by_direction(board, size, direction, count):
         remove_blank_by_direction(tmp_board, size, direction)
 
     if count == 4:
-        for i in range(1, size+1):
-            for j in range(1, size+1):
-                if tmp_board[i][j] > max:
-                    max = tmp_board[i][j]
+        max_block = max(max_block, max(max(tmp_board)))
     else:
         move_by_direction(tmp_board, size, left, count + 1)
         move_by_direction(tmp_board, size, right, count + 1)
@@ -72,4 +72,4 @@ if __name__ == '__main__':
     move_by_direction(board, n, up, 0)
     move_by_direction(board, n, down, 0)
 
-    print(max)
+    print(max_block)
