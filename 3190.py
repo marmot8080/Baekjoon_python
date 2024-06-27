@@ -1,50 +1,69 @@
-start_direction = [0, 1]
-
 class body_queue():
     __queue = []
-    __head = 0
-    __tail = 0
     __MAX_SIZE = 10000
 
-    def __init__(self, start_loc):
-        self.__queue.append(start_loc)
+    def __init__(self, start_loc: list = [0, 0]):
+        self.__queue.append(start_loc[:])
+        self.__head = 0
+        self.__tail = -1
 
-    def enqueue(self, head):
-        if not head in self.__queue:
-            self.__queue[self.__tail % self.__MAX_SIZE] = head
-            self.__tail += 1
+    def enqueue(self, head: list):
+        self.__head += 1
+        if self.__head < self.__MAX_SIZE:
+            self.__queue.append(head[:])
+        else:
+            self.__queue[self.__head % self.__MAX_SIZE] = head[:]
 
     def dequeue(self):
-        if self.__head > self.__tail:
-            loc = self.__queue[self.__head]
-            self.__head += 1
-            return loc
+        if self.__tail < self.__head:
+            self.__tail += 1
+            return self.__queue[self.__tail]
+    
+    def collision_with_myself(self, head: list):
+        if self.__tail > 0 and self.__tail < self.__head:
+            for i in range(self.__tail + 1, self.__head + 1):
+                if self.__queue[i % self.__MAX_SIZE] == head:
+                    return True
+        return False
 
-def turn_right(direction):
+def turn_right(direction: list):
     return [direction[1], direction[0] * -1]
 
-def turn_left(direction):
+def turn_left(direction: list):
     return [direction[1] * -1, direction[0]]
 
-def get_end_time(board_size, apple_loc, moves):
+def get_end_time(board_size: int, apple_loc: list, moves: list, start_direction: list = [0, 1]):
     direction = start_direction
-    row = 0
-    column = 0
     time_count = 0
-    body = body_queue([0, 0])
+    body = body_queue()
+    head = [0, 0]
+    turn_count = 0
     
-    for i in range(len(moves)):
-        tmp = row*abs(direction[0]) + column*abs(direction[1]) + moves[i][0]*(direction[0]+direction[1])
-        if tmp < 0 or tmp >= board_size:
-            # 몇 번 더 움직이고 끝나는지 계산하여 종료시간 반환
-            pass
+    while head[0] in range(0, board_size) and head[1] in range(0, board_size):
+        time_count += 1
+        head[0] += direction[0]
+        head[1] += direction[1]
+        
+        if body.collision_with_myself(head):
+            return time_count
         else:
-            # 방향에 따라 head 위치 설정
-            # head의 위치가 apple_loc에 포함되지 않을 경우 dequeue
-            # head 위치 enqueue
-            # moves[i][1]이 'L'일 경우 direction = turn_left(direction), 
-            # 'D'일 경우 direction = turn_right(direction)
-            pass
+            body.enqueue(head)
+
+        if head in apple_loc:
+            apple_loc.remove(head)
+        else:
+            body.dequeue()
+        
+        if turn_count < len(moves) and time_count == moves[turn_count][0]:
+            if moves[turn_count][1] == 'L':
+                direction = turn_left(direction)
+                turn_count += 1
+            elif moves[turn_count][1] == 'D':
+                direction = turn_right(direction)
+                turn_count += 1
+            else:
+                print('잘못된 방향의 입력입니다.')
+                return time_count
     
     return time_count
 
