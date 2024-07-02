@@ -1,3 +1,5 @@
+import sys
+
 east = 1
 west = 2
 north = 3
@@ -86,9 +88,9 @@ if __name__ == '__main__':
     row, column, loc[0], loc[1], command_cnt = map(int, input().split())
 
     for i in range(row):
-        board.append([m for m in map(int, input().split())])
+        board.append(list(map(int, sys.stdin.readline().split())))
     
-    direction = [k for k in map(int, input().split())]
+    direction = list(map(int, input().split()))
 
     for i in range(command_cnt):
         dice_roller(board, loc, direction[i])
