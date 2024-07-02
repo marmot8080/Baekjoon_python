@@ -1,3 +1,5 @@
+import sys
+
 def get_connected_vertex_count(vertex):
     count = 0
 
@@ -89,7 +91,7 @@ if __name__ == '__main__':
     adj_matrix = [[0 for _ in range(vertex_count)] for _ in range(vertex_count)]
 
     for _ in range(query_count):
-        query = list(map(int, input().split()))
+        query = list(map(int, sys.stdin.readline().split()))
         
         if query[0] == 1:
             execute_query_1(query[1] - 1, query[2] - 1)
