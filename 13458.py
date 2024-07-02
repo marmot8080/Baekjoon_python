@@ -13,7 +13,7 @@ def get_min_inspector_count(candidate_cnt: list, general_cap: int, deputy_cap: i
 
 if __name__ == '__main__':
     center_cnt = int(input())
-    candidate_cnt = [n for n in map(int, input().split())]
+    candidate_cnt = list(map(int, input().split()))
     
     general_cap, deputy_cap = map(int, input().split())
 

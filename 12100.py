@@ -63,7 +63,7 @@ if __name__ == '__main__':
     board = [[-1 for _ in range(n+2)] for _ in range(n+2)]
 
     for i in range(1, n+1):
-        row = [m for m in map(int, input().split())]
+        row = list(map(int, input().split()))
         for j in range(1, n+1):
             board[i][j] = row[j-1]
 

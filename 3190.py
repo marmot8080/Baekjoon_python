@@ -73,7 +73,7 @@ if __name__ == '__main__':
     apple_count = int(input())
     apple_loc = []
     for i in range(apple_count):
-        apple_loc.append([m-1 for m in map(int, input().split())])
+        apple_loc.append(list(map(int, input().split())))
     
     move_count = int(input())
     moves = []
