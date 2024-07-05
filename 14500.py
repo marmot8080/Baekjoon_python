@@ -1,46 +1,52 @@
 import sys
-import copy
 
-def get_max_sum(row:int, column:int, visited:list[list[int]], candidate:list[list[int]]=[], count:int = 0):
-    global max_sum
-    global board
-    
+directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+
+def DFS(row:int, column:int, sum:int = 0, count:int = 0):
+    global board, visited, max_sum
+
     if count == 3:
-        sum = 0
+        max_sum = max(max_sum, sum)
+    else:
         for i in range(4):
-            sum += board[visited[i][0]][visited[i][1]]
-        
+            row_tmp = row + directions[i][0]
+            column_tmp = column + directions[i][1]
+            if 0 <= row_tmp < len(board) and 0<= column_tmp < len(board[0]) and not visited[row_tmp][column_tmp]:
+                visited[row_tmp][column_tmp] = True
+                DFS(row_tmp, column_tmp, sum + board[row_tmp][column_tmp], count+1)
+                visited[row_tmp][column_tmp] = False
+
+def T_shape(row, column):
+    global board, max_sum
+
+    for i in range(4):
+        sum = board[row][column]
+        for j in range(4):
+            if i != j:
+                if 0 <= row + directions[j][0] < len(board) and 0<= column + directions[j][1] < len(board[0]):
+                    sum += board[row + directions[j][0]][column + directions[j][1]]
+                else:
+                    sum = 0
+                    break
         if max_sum < sum:
             max_sum = sum
-    else:
-        candidate_tmp = [loc.copy() for loc in candidate if loc != [row, column]]
-
-        if row+1 < len(board) and not [row+1, column] in visited:
-            candidate_tmp.append([row+1, column])
-        if row-1 < len(board) and not [row-1, column] in visited:
-            candidate_tmp.append([row-1, column])
-        if column+1 < len(board[0]) and not [row, column+1] in visited:
-            candidate_tmp.append([row, column+1])
-        if column-1 >= 0 and not [row, column-1] in visited:
-            candidate_tmp.append([row, column-1])
-
-        for loc in candidate_tmp:
-            visited_tmp = copy.deepcopy(visited)
-            visited_tmp.append(loc)
-            get_max_sum(loc[0], loc[1], visited_tmp, candidate_tmp, count+1)
 
 if __name__ == '__main__':
-    global board
-    global max_sum
+    global board, visited, max_sum
     board = []
     max_sum = 0
     row, column = map(int, sys.stdin.readline().split())
+    visited = [[False for _ in range(column)] for _ in range(row)]
 
     for i in range(row):
         board.append(list(map(int, sys.stdin.readline().split())))
     
     for i in range(row):
         for j in range(i%2, column, 2):
-            get_max_sum(i, j, [[i, j]])
+            visited[i][j] = True
+            DFS(i, j, board[i][j])
+            visited[i][j] = False
+        for j in range(column):
+            T_shape(i, j)
     
     print(max_sum)
