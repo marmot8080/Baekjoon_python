@@ -17,15 +17,12 @@ def build_wall(x, y, count):
             spread_virus(virus[0], virus[1], lab_tmp)
 
         safe_areas(lab_tmp)
-
-        del lab_tmp
     else:
         tmp = 0
-        for i in range(row):
+        for i in range(x, row):
             for j in range(column):
                 if tmp == 0:
                     tmp = 1
-                    i = x
                     j = y
                     continue
                 if lab[i][j] == 0:
@@ -42,16 +39,13 @@ def spread_virus(x, y, lab_tmp):
             spread_virus(x_tmp, y_tmp, lab_tmp)
 
 def safe_areas(lab_tmp):
-    global max
+    global result
     count = 0
 
     for i in range(row):
-        for j in range(column):
-            if lab_tmp[i][j] == 0:
-                count += 1
+        count += lab_tmp[i].count(0)
 
-    if count > max:
-        max = count
+    result = max(result, count)
 
 def max_safe_area():
     for i in range(row):
@@ -62,8 +56,8 @@ def max_safe_area():
                 lab[i][j] = 0
 
 if __name__ == '__main__':
-    global row, column, max
-    max = 0
+    global row, column, result
+    result = 0
     row, column = map(int, input().split())
     lab = []
 
@@ -72,4 +66,4 @@ if __name__ == '__main__':
 
     max_safe_area()
 
-    print(max)
+    print(result)
