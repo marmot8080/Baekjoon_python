@@ -1,29 +1,33 @@
+def GCD(num, div):
+    a = num
+    b = div
+    rest = a % b
+    
+    while rest != 0:
+        a = b
+        b = rest
+        rest = a % b
+
+    return b
+
 if __name__ == '__main__':
-    num_arr = []
-    tmp_arr = []
     result = []
 
     n = int(input())
-    min_num = int(input())
-    num_arr.append(min_num)
+    num_arr = sorted(list(int(input()) for _ in range(n)))
+    diff_arr = [num_arr[i] - num_arr[i-1] for i in range(1, n)]
 
-    for i in range(n-1):
-        num_arr.append(int(input()))
-    
-    for i in range(min_num - 1):
-        tmp_arr.clear()
-        tmp_arr = [num - i for num in num_arr]
-        
-        for j in range(2, min_num + 1):
-            tmp = 0
-            for k in range(n):
-                if not tmp_arr[k] % j == 0:
-                    tmp = 1
-                    break
-            if tmp == 0 and not j in result:
-                result.append(j)
-    
-    result.sort()
 
-    for i in range(len(result)):
-        print(result[i], end=" ")
+    gcd = diff_arr[0]
+    for i in range(1, n-1):
+        gcd = GCD(gcd, diff_arr[i])
+    
+    for i in range(2, int(gcd**0.5) + 1):
+        if gcd % i == 0:
+            result.append(i)
+            if i != gcd//i:
+                result.append(gcd//i)
+    result.append(gcd)
+
+    for i in sorted(result):
+        print(i, end=" ")
