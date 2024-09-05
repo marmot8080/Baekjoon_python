@@ -21,29 +21,32 @@ def CCTV(cctv, office):
                 office_tmp = [[j for j in office[i]] for i in range(n)]
                 l = 1
                 while 0 <= x + l*dx[k] < n and 0 <= y + l*dy[k] < m:
-                    if office_tmp[x + l*dx[k]][y + l*dy[k]] in (0, '#'):
-                        office_tmp[x + l*dx[k]][y + l*dy[k]] = '#'
-                        l += 1
-                    else:
+                    if office_tmp[x + l*dx[k]][y + l*dy[k]] == 6:
                         break
+
+                    if office_tmp[x + l*dx[k]][y + l*dy[k]] == 0:
+                        office_tmp[x + l*dx[k]][y + l*dy[k]] = '#'
+                    l += 1
                 CCTV(cctv + 1, office_tmp)
         elif office[x][y] == 2:
             for k in range(2):
                 office_tmp = [[j for j in office[i]] for i in range(n)]
                 l = 1
                 while 0 <= x + l*dx[k] < n and 0 <= y + l*dy[k] < m:
-                    if office_tmp[x + l*dx[k]][y + l*dy[k]] in (0, '#'):
-                        office_tmp[x + l*dx[k]][y + l*dy[k]] = '#'
-                        l += 1
-                    else:
+                    if office_tmp[x + l*dx[k]][y + l*dy[k]] == 6:
                         break
+
+                    if office_tmp[x + l*dx[k]][y + l*dy[k]] == 0:
+                        office_tmp[x + l*dx[k]][y + l*dy[k]] = '#'
+                    l += 1
                 l = 1
                 while 0 <= x - l*dx[k] < n and 0 <= y - l*dy[k] < m:
-                    if office_tmp[x - l*dx[k]][y - l*dy[k]] in (0, '#'):
-                        office_tmp[x - l*dx[k]][y - l*dy[k]] = '#'
-                        l += 1
-                    else:
+                    if office_tmp[x - l*dx[k]][y - l*dy[k]] == 6:
                         break
+
+                    if office_tmp[x - l*dx[k]][y - l*dy[k]] == 0:
+                        office_tmp[x - l*dx[k]][y - l*dy[k]] = '#'
+                    l += 1
                 CCTV(cctv + 1, office_tmp)
         elif office[x][y] == 3:
             for k in range(4):
@@ -51,11 +54,12 @@ def CCTV(cctv, office):
                 for a in range(k, k+2):
                     l = 1
                     while 0 <= x + l*dx[a] < n and 0 <= y + l*dy[a] < m:
-                        if office_tmp[x + l*dx[a]][y + l*dy[a]] in (0, '#'):
-                            office_tmp[x + l*dx[a]][y + l*dy[a]] = '#'
-                            l += 1
-                        else:
+                        if office_tmp[x + l*dx[a]][y + l*dy[a]] == 6:
                             break
+                        
+                        if office_tmp[x + l*dx[a]][y + l*dy[a]] == 0:
+                            office_tmp[x + l*dx[a]][y + l*dy[a]] = '#'
+                        l += 1
                 CCTV(cctv + 1, office_tmp)
         elif office[x][y] == 4:
             for k in range(4):
@@ -63,22 +67,24 @@ def CCTV(cctv, office):
                 for a in range(k, k+3):
                     l = 1
                     while 0 <= x + l*dx[a] < n and 0 <= y + l*dy[a] < m:
-                        if office_tmp[x + l*dx[a]][y + l*dy[a]] in (0, '#'):
-                            office_tmp[x + l*dx[a]][y + l*dy[a]] = '#'
-                            l += 1
-                        else:
+                        if office_tmp[x + l*dx[a]][y + l*dy[a]] == 6:
                             break
+                        
+                        if office_tmp[x + l*dx[a]][y + l*dy[a]] == 0:
+                            office_tmp[x + l*dx[a]][y + l*dy[a]] = '#'
+                        l += 1
                 CCTV(cctv + 1, office_tmp)
         elif office[x][y] == 5:
             office_tmp = [[j for j in office[i]] for i in range(n)]
             for k in range(4):
                 l = 1
                 while 0 <= x + l*dx[k] < n and 0 <= y + l*dy[k] < m:
-                    if office_tmp[x + l*dx[k]][y + l*dy[k]] in (0, '#'):
-                        office_tmp[x + l*dx[k]][y + l*dy[k]] = '#'
-                        l += 1
-                    else:
+                    if office_tmp[x + l*dx[k]][y + l*dy[k]] == 6:
                         break
+                    
+                    if office_tmp[x + l*dx[k]][y + l*dy[k]] == 0:
+                        office_tmp[x + l*dx[k]][y + l*dy[k]] = '#'
+                    l += 1
             CCTV(cctv + 1, office_tmp)
 
 
